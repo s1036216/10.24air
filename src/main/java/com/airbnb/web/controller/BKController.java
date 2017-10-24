@@ -54,12 +54,11 @@ public class BKController {
 	         result="success";
 	      }
 		 map.put("msg", result);
-	      map.put("member_id", m.getMemberId());
-	      map.put("pass", m.getMemberPassword());
+	   
 		
 		System.out.println("통신후"+cmd.toString());
 		System.out.println("통신후"+m.toString());
-		map.put("member", m);
+	
 		
 		
 		return map;

@@ -58,15 +58,8 @@ chobongki.index=(()=>{
          
           var email=$('#useremail').val();
        	  var pass=$('#userpass').val();
-       	  if(email===""){
-       		  if(pass===""){
-       			  
-       		  }
-       		alert('값이없다');
-       		
-       	 chobongki.common.init();
-       	  }
-       	  else{
+       
+       
        	  $.ajax({
        		  		 url :ctx+'/get/login', 
 					 method : 'POST',					
@@ -94,7 +87,7 @@ chobongki.index=(()=>{
 						 alert('통신에러발생'+m);
 					 }
 				 });
-       	  }   
+          
        
            
           });
