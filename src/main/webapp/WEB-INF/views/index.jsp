@@ -35,10 +35,11 @@
 </style>
 </head>
 
-<body>
+<body  style="overflow:scroll">
 
 </body>
 <script>
 	app.common.init('${path.ctx}');
+
 </script>
 </html>

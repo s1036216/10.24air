@@ -2,13 +2,21 @@ package com.airbnb.web.domain;
 
 import org.springframework.stereotype.Component;
 
+import lombok.Data;
+@Data
 @Component
 public class Residence {
 	private String 
 	hostSerial,
 	memberId,
-	limitNo,
+	adult,
+	teen,
+	child,
 	residenceName,
 	price,
-	zipcode;
+	zipcode,
+	detailImg,
+	inforImg,
+	resiContent,
+	addr;
 }

@@ -2,14 +2,28 @@ package com.airbnb.web.domain;
 
 import org.springframework.stereotype.Component;
 
+import lombok.Data;
+
 @Component
+@Data
 public class Member {
 			private String 
 			memberId,
 			memberPassword,
 			name,
 			regdate,
-			birthdate;
+			birthdate,
+			memberRole
+			
+			;
+
+			public String getMemberRole() {
+				return memberRole;
+			}
+
+			public void setMemberRole(String memberRole) {
+				this.memberRole = memberRole;
+			}
 
 			@Override
 			public String toString() {

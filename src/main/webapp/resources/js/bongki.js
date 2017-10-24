@@ -72,10 +72,17 @@ chobongki.index=(()=>{
 						 
 						 if(d.msg=='success'){                                
 	                           alert('로그인 성공 !!');
-	                          
-	                             sessionStorage.setItem('member_id',d.member_id);
-	                             alert('ajax통신성공    :::'+d.member.name);
-	         					app.common.init(ctx);                                                                                                
+	                           
+	                           sessionStorage.setItem('sname',d.list.name);
+	                           sessionStorage.setItem('smemberid',d.list.memberId);
+	                           sessionStorage.setItem('sregdate',d.list.regdate);
+	                           sessionStorage.setItem('sbirthdate',d.list.birthdate);
+	                           alert('세션 이름 : '+sessionStorage.getItem('sname'));
+	                           alert('세션 아이디: '+sessionStorage.getItem('smemberid'));
+	                           alert('세션 날자: '+sessionStorage.getItem('sregdate'));
+                               alert('세션 생년월일: '+sessionStorage.getItem('sbirthdate'));
+	 
+                               app.common.init(ctx);                                                                                               
 	                         }else{
 	                            alert('로그인 실패 !!');
 	                            $('#useremail').val("");
@@ -130,6 +137,13 @@ chobongki.profile=(()=>{
 	   ctx=$$('x');
       $('<div/>',{'id':'container'}).appendTo('body');
        $('#container').html(cho.profile());
+       $('#lastname').val(sessionStorage.getItem('sname').substring(1));
+       $('#firstname').val(sessionStorage.getItem('sname').substring(0,1));
+       $('#email').val(sessionStorage.getItem('smemberid'));
+       $('#year option[value='+sessionStorage.getItem('sbirthdate').substring(0,4)+']').attr('selected', true);
+       $('#month option[value='+sessionStorage.getItem('sbirthdate').substring(5,7)+']').attr('selected', true);
+       $('#day option[value='+sessionStorage.getItem('sbirthdate').substring(8,10)+']').attr('selected', true);
+       
        $('#menu5').click(()=>{
             alert('프로필수정')
               $('<div/>',{'id':'container'}).appendTo('body');
@@ -146,7 +160,13 @@ chobongki.profile=(()=>{
                .text('프로필보기'));
          $('#profileShow').click(()=>{
             alert('프로필로')
+            
+          
             $('#container').html(cho.profile2());
+            //프로필2입력
+            $('#profileName').val(sessionStorage.getItem('sname'));
+            $('#regdate').val(sessionStorage.getItem('sregdate'));
+           
              $('#menu5-1').click(()=>{
                   alert('프로필수정')
                   chobongki.profile.init();
@@ -209,7 +229,7 @@ chobongki.profile=(()=>{
             alert('예약보기');  
            //$('body').html(cho.profileNav());
             jw.resvBoard.list();
-         })();
+         });
    };
    return { init:init };
 })();
@@ -247,7 +267,7 @@ var cho={
           +'<br/>'
           +'<br/>'
           +'<div style="" >'
-          +'<select class="cho_select" id="month" name="color">'
+          +'<select class="cho_select" id="month" >'
           +'<option value="1">1월</option>'
           +'<option value="2">2월</option>'
           +'<option value="3">3월</option>'
@@ -261,7 +281,7 @@ var cho={
           +'<option value="11">11월</option>'
           +'<option value="12">12월</option>'
           +'  </select> &nbsp&nbsp'
-          +'<select class="cho_select" id="day" name="color">'
+          +'<select class="cho_select" id="day" >'
           +'<option value="1">1일</option>'
           +'<option value="2">2일</option>'
           +'<option value="3">3일</option>'
@@ -295,37 +315,38 @@ var cho={
           +'<option value="31">31일</option> '
           +'  </select >&nbsp&nbsp&nbsp&nbsp'
           +'<select class="cho_select" id="year" name="color">'
-          +'<option value="1">1970년</option>'
-          +'<option value="2">1971년</option>'
-          +'<option value="3">1972년</option>'
-          +'<option value="4">1973년</option>'
-          +'<option value="5">1974년</option>'
-          +'<option value="6">1975년</option>'
-          +'<option value="7">1976년</option>'
-          +'<option value="8">1977년</option>'
-          +'<option value="9">1978년</option>'
-          +'<option value="10">1979년</option>'
-          +'<option value="11">1980년</option> '
-          +'<option value="11">1981년</option> '
-          +'<option value="11">1982년</option> '
-          +'<option value="11">1983년</option> '
-          +'<option value="11">1984년</option> '
-          +'<option value="11">1985년</option> '
-          +'<option value="11">1986년</option> '
-          +'<option value="11">1987년</option> '
-          +'<option value="11">1988년</option> '
-          +'<option value="11">1989년</option> '
-          +'<option value="11">1990년</option> '
-          +'<option value="11">1991년</option> '
-          +'<option value="11">1992년</option> '
-          +'<option value="11">1993년</option> '
-          +'<option value="11">1994년</option> '
-          +'<option value="11">1995년</option> '
-          +'<option value="27">1996년</option> '
-          +'<option value="28">1997년</option> '
-          +'<option value="29">1998년</option> '
-          +'<option value="30">1999년</option> '
-          +'<option value="31">2000년</option> '
+          +'<option value="1970">1970년</option>'
+          +'<option value="1971">1970년</option>'
+          +'<option value="1972">1972년</option>'
+          +'<option value="1973">1973년</option>'
+          +'<option value="1974">1974년</option>'
+          +'<option value="1975">1975년</option>'
+          +'<option value="1976">1976년</option>'
+          +'<option value="1977">1977년</option>'
+          +'<option value="1978">1978년</option>'
+          +'<option value="1979">1979년</option>'
+          +'<option value="1980">1980년</option> '
+          +'<option value="1981">1981년</option> '
+          +'<option value="1982">1982년</option> '
+          +'<option value="1983">1983년</option> '
+          +'<option value="1984">1984년</option> '
+          +'<option value="1985">1985년</option> '
+          +'<option value="1986">1986년</option> '
+          +'<option value="1987">1987년</option> '
+          +'<option value="1988">1988년</option> '
+          +'<option value="1989">1989년</option> '
+          +'<option value="1990">1990년</option> '
+          +'<option value="1991">1991년</option> '
+          +'<option value="1992">1992년</option> '
+          +'<option value="1993">1993년</option> '
+          +'<option value="1994">1994년</option> '
+          +'<option value="1995">1995년</option> '
+          +'<option value="1996">1996년</option> '
+          +'<option value="1997">1997년</option> '
+          +'<option value="1998">1998년</option> '
+          +'<option value="1999">1999년</option> '
+          +'<option value="2000">2000년</option> '
+          +'<option value="2001">2001년</option> '
           +'  </select>'
           +'</div>'
           +'<br/>'
@@ -374,21 +395,21 @@ var cho={
             +'거주지주소&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input  class="cho_input_text" id="addres" type="text" placeholder="서울시 양천구 ....(자세히입력하세요)"/><br />'
             +'</div>'
                +'<div style="margin-left: 10.6%">'
-                     +'생년월일&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="cho_select" id="month" name="color">'
-                     +'<option value="1">1월</option>'
-                     +'<option value="2">2월</option>'
-                     +'<option value="3">3월</option>'
-                     +'<option value="4">4월</option>'
-                     +'<option value="5">5월</option>'
-                     +'<option value="6">6월</option>'
-                     +'<option value="7">7월</option>'
-                     +'<option value="8">8월</option>'
-                     +'<option value="9">9월</option>'
+                     +'생년월일&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="cho_select" id="month" >'
+                     +'<option value="01">1월</option>'
+                     +'<option value="02">2월</option>'
+                     +'<option value="03">3월</option>'
+                     +'<option value="04">4월</option>'
+                     +'<option value="05">5월</option>'
+                     +'<option value="06">6월</option>'
+                     +'<option value="07">7월</option>'
+                     +'<option value="08">8월</option>'
+                     +'<option value="09">9월</option>'
                      +'<option value="10">10월</option>'
                      +'<option value="11">11월</option>'
                      +'<option value="12">12월</option>'
                        +'</select>'
-                     +'<select  class="cho_select" id="day" name="color">'
+                     +'<select  class="cho_select" id="day" >'
                      +'<option value="1">1일</option>'
                      +'<option value="2">2일</option>'
                      +'<option value="3">3일</option>'
@@ -421,39 +442,40 @@ var cho={
                      +'<option value="30">30일</option> '
                      +'<option value="31">31일</option> '
                      +'&nbsp;&nbsp;&nbsp'
-                       +'</select>'
-                     +'<select  class="cho_select" id="year" name="color">'
-                     +'<option value="1">1970년</option>'
-                     +'<option value="2">1971년</option>'
-                     +'<option value="3">1972년</option>'
-                     +'<option value="4">1973년</option>'
-                     +'<option value="5">1974년</option>'
-                     +'<option value="6">1975년</option>'
-                     +'<option value="7">1976년</option>'
-                     +'<option value="8">1977년</option>'
-                     +'<option value="9">1978년</option>'
-                     +'<option value="10">1979년</option>'
-                     +'<option value="11">1980년</option> '
-                     +'<option value="11">1981년</option> '
-                     +'<option value="11">1982년</option> '
-                     +'<option value="11">1983년</option> '
-                     +'<option value="11">1984년</option> '
-                     +'<option value="11">1985년</option> '
-                     +'<option value="11">1986년</option> '
-                     +'<option value="11">1987년</option> '
-                     +'<option value="11">1988년</option> '
-                     +'<option value="11">1989년</option> '
-                     +'<option value="11">1990년</option> '
-                     +'<option value="11">1991년</option> '
-                     +'<option value="11">1992년</option> '
-                     +'<option value="11">1993년</option> '
-                     +'<option value="11">1994년</option> '
-                     +'<option value="11">1995년</option> '
-                     +'<option value="27">1996년</option> '
-                     +'<option value="28">1997년</option> '
-                     +'<option value="29">1998년</option> '
-                     +'<option value="30">1999년</option> '
-                     +'<option value="31">2000년</option> '
+                     +'</select>'
+                     +'<select  class="cho_select" id="year" >'
+                     +'<option value="1970">1970년</option>'
+                     +'<option value="1971">1971년</option>'
+                     +'<option value="1972">1972년</option>'
+                     +'<option value="1973">1973년</option>'
+                     +'<option value="1974">1974년</option>'
+                     +'<option value="1975">1975년</option>'
+                     +'<option value="1976">1976년</option>'
+                     +'<option value="1977">1977년</option>'
+                     +'<option value="1978">1978년</option>'
+                     +'<option value="1979">1979년</option>'
+                     +'<option value="1980">1980년</option> '
+                     +'<option value="1981">1981년</option> '
+                     +'<option value="1982">1982년</option> '
+                     +'<option value="1983">1983년</option> '
+                     +'<option value="1984">1984년</option> '
+                     +'<option value="1985">1985년</option> '
+                     +'<option value="1986">1986년</option> '
+                     +'<option value="1987">1987년</option> '
+                     +'<option value="1988">1988년</option> '
+                     +'<option value="1989">1989년</option> '
+                     +'<option value="1990">1990년</option> '
+                     +'<option value="1991">1991년</option> '
+                     +'<option value="1992">1992년</option> '
+                     +'<option value="1993">1993년</option> '
+                     +'<option value="1994">1994년</option> '
+                     +'<option value="1995">1995년</option> '
+                     +'<option value="1996">1996년</option> '
+                     +'<option value="1997">1997년</option> '
+                     +'<option value="1998">1998년</option> '
+                     +'<option value="1999">1999년</option> '
+                     +'<option value="2000">2000년</option> '
+                     +'<option value="2001">2001년</option> '
                        +'</select>'
                      +'<div class="cho_textbox">이 정보는 통계 목적으로 사용되며 다른 회원들에게 절대 공개되지 않습니다.</div>  '
                      +'전화번호&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input class="cho_input_text" id="phone" type="text" placeholder="010-1234-5678"/>'
@@ -489,11 +511,12 @@ var cho={
             +'</div>'
             +''
             +'<div class="profile2">'
-            +' <span style="margin-left: 7%; margin-top:2% ; font-size: xx-large; font-weight:bold;" >안녕하세요 <span id="profileName" style="margin-left: 7%; margin-top:2% ; font-size: xx-large; font-weight:bold;" ></span>입니다</span>'
-           +' <div style="margin-left: 12%; margin-top: 2%; font-size: large ;font-weight: bold;">가입날짜<div id="regdate" style="margin-left: 7%;margin-top: 2%;font-size: medium;font-weight: bold;"></div></div>  '
-            +'<div id="#cho_img">'
-            +'<img src="resources/img/defaultimg.jpg" alt="" />'
-            +'</div>'
+            +' <span style="margin-left: 7%; margin-top:2% ; font-size: xx-large; font-weight:bold;" >안녕하세요  '+sessionStorage.getItem('sname')+' 입니다</span>'
+           +' <div style="margin-left: 12%; margin-top: 2%; font-size: large ;font-weight: bold;">가입날짜  '+sessionStorage.getItem('sregdate')+'</div>'
+           +'<div id="#cho_img">'
+           +'<img src="resources/img/defaultimg.jpg" alt="" />'
+           +'</div></div> '
+            
             +'</div>'
       },
       profileNav:()=>{return '<ul class="cho_ul">'
@@ -540,9 +563,9 @@ chobongki.session=
          return sessionStorage.getItem(x);
            }
 };
-/*var $$= function(x){return chobongki.session.getPath(x);};*/
+var $$= function(x){return chobongki.session.getPath(x);};
    ////=====페이스북 api====///
-/*(function(d, s, id) {
+(function(d, s, id) {
     var js, fjs = d.getElementsByTagName(s)[0];
     if (d.getElementById(id)) return;
     js = d.createElement(s); js.id = id;
@@ -580,4 +603,4 @@ window.fbAsyncInit = function() {
           } else {
             // The person is not logged into this app or we are unable to tell. 
           }
-        });*/
+        });

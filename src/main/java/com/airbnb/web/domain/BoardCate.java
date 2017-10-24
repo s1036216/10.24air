@@ -8,7 +8,8 @@ public class BoardCate {
 	boardSeq,
 	cateName,
 	cateLevel,
-	cateParentId
+	cateParentId,
+	 cateSection
 	
 	;
 	
