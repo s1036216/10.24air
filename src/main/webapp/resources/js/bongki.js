@@ -27,25 +27,100 @@ chobongki.index=(()=>{
           $('#joinaddBtn2').html(compUI.input('addfirstname','text').addClass('cho_input').css({'background-color':'white'}).attr('placeholder','이름'));
           $('#joinaddBtn3').html(compUI.input('addlastname','text').addClass('cho_input').css({'background-color':'white'}).attr('placeholder','성'));
           $('#joinaddBtn4').html(compUI.input('addpass','text').addClass('cho_input').css({'background-color':'white'}).attr('placeholder','비밀번호'));
-          $('#addlogin').html(compUI.btn('addlogin').addClass('cho_button').css({'background-color':'#ff5a5f'}).text('로그인'));
+          $('#addlogin').html(compUI.btn('addloginafter').addClass('cho_button').css({'background-color':'#ff5a5f'}).text('로그인'));
           $('#addjoin').html(compUI.btn('addjoin').addClass('cho_button').css({'background-color':'#ffb380'}).text('회원가입'));
-           
-          $('#addlogin').attr({'data-toggle':'modal', 'data-target':"#myModal111"}).click(()=>{
-        	  
-        	 
-             alert('로그인ㄱㄱ');
-            app.common.init(ctx);
-            
-            });
+          $('#joinaddBtn0').html(compUI.btn('search').css({'background-color':'white'}).text('이메일중복조회'));
+          
+          $('#homeBtn111').click(()=>{
+        	  app.common.init(ctx);
+          });
+          
+        	  $('#search').click(()=>{
+           	var $addemail=$('#addemail').val();
+            	 alert('이메일'+$addemail);
+             	$.ajax({
+                	 url :ctx+'/get/search',
+                	 method : 'post',
+                	 data  : JSON.stringify({
+    					 'memberId' : $addemail
+    					
+    				 }),
+    				 contentType : 'application/json',
+    				 success : d=>{
+    					           
+                               if(d.msg=='success'){
+                              	 alert('가입가능한 이메일입니다');
+                               	                          
+                               }else{
+                              	 alert('중복입니다');
+                              	  $('#useremail').val("");
+  	                                                       }                                                      
+                       					
+    				 },
+    				 error : (x,s,m)=>{
+    					
+    				 }
+                 });  
+                  });	
+          
+          
             $('#addjoin').attr({'data-toggle':'modal', 'data-target':"#myModal111"}).click(()=>{
-
-               alert('가입완료');
-                 app.common.init();
+            	 alert('가입완료11');
+            
+                     	  
+            	var $addemail=$('#addemail').val();
+            	var $addfirstname=$('#addfirstname').val();
+            	var $addlastname=$('#addlastname').val();
+            	var $addpass=$('#addpass').val();
+            	var $addyear=$('#addyear').val();
+            	var $addmonth=$('#addmonth').val();
+            	var $addday=$('#addday').val();
+                
+            	var $name=$('#addlastname').val()+$('#addfirstname').val();
+            	var $birthdate=$('#addyear').val()+'-'+$('#addmonth').val()+'-'+$('#addday').val();
+          
+            	
+             alert('이메일'+$addemail);
+             alert('이름'+$name);
+             alert('생일'+$birthdate);
+             alert('비번'+$addpass);
+             var arr=[$addemail,$name,$birthdate,$addpass];
+             
+             for (var i = 0; i < arr.length ; i++) {
+            	 			if(arr[i]==""){
+            	 				alert('필수 입력 값이  빠졌습니다 ');
+            	 				 e.preventDefault();
+            	 				
+            	 				
+            	 			}else{
+            	 				 $.ajax({
+            	 	            	 url :ctx+'/get/insert',
+            	 	            	 method : 'post',
+            	 	            	 data  : JSON.stringify({
+            	 						 'memberId' : $addemail,
+            	 						 'name' : $name,
+            	 						 'memberPassword' : $addpass,
+            	 						 'birthdate' : $birthdate,
+            	 					 }),
+            	 					 contentType : 'application/json',
+            	 					 success : d=>{
+            	 	                           alert('가입성공 성공 !!');
+            	 	                           app.common.init(ctx);
+            	 					 },
+            	 					 error : (x,s,m)=>{
+            	 						
+            	 						 app.common.init(ctx);
+            	 					 }
+            	 	             });
+            	}              	 	
+            
+             }    
                
             });
-          $('#joinDiv').attr({'data-toggle':'modal', 'data-target':"#myModal222"}).click(()=>{
-           
-             chobongki.index.init(); 
+          $('#joinDiv').click(()=>{
+        	  $('body').html(cho.join());
+			   chobongki.common.init(ctx); 
+             
           });
           $('#facebookDiv').click(()=>{
              alert('페이스북버튼');
@@ -56,16 +131,20 @@ chobongki.index=(()=>{
         	 e.preventDefault();
              alert('로그인22222');
          
-          var email=$('#useremail').val();
-       	  var pass=$('#userpass').val();
-       
-       
+          var $email=$('#useremail').val();
+       	  var $pass=$('#userpass').val();
+      
+        if($email=="" ){
+        	alert('이메일을 정확히 입력하세요');
+        }else{if($pass=="" ){
+        	alert('비밀번호를 정확히 입력하세요');
+        }else
        	  $.ajax({
        		  		 url :ctx+'/get/login', 
 					 method : 'POST',					
-					 data  : JSON.stringify({
-						 'memberId' : email,
-						 'memberPassword' : pass
+		    		 data  : JSON.stringify({
+						 'memberId' : $email,
+						 'memberPassword' : $pass
 					 }),
 					 contentType : 'application/json',
 					 success : d=>{
@@ -77,64 +156,36 @@ chobongki.index=(()=>{
 	                           sessionStorage.setItem('smemberid',d.list.memberId);
 	                           sessionStorage.setItem('sregdate',d.list.regdate);
 	                           sessionStorage.setItem('sbirthdate',d.list.birthdate);
+	                           sessionStorage.setItem('spassword',d.list.memberPassword);
 	                           alert('세션 이름 : '+sessionStorage.getItem('sname'));
 	                           alert('세션 아이디: '+sessionStorage.getItem('smemberid'));
 	                           alert('세션 날자: '+sessionStorage.getItem('sregdate'));
                                alert('세션 생년월일: '+sessionStorage.getItem('sbirthdate'));
 	 
                                app.common.init(ctx);                                                                                               
-	                         }else{
-	                            alert('로그인 실패 !!');
-	                            $('#useremail').val("");
-	                            $('#userpass').val("");
-	                         }            
+	                         }        
 	                    					
 					 },
 					 error : (x,s,m)=>{
-						 alert('통신에러발생'+m);
+						 alert('아이디 비밀번호가 일치하지않습니다.');
 					 }
 				 });
-          
-       
-           
+        }
           });
-             
-        
+       
     }; 
-          
+                  
    
-          
-          
-    
     return {init:init };
 })();
 
-chobongki.join=(()=>{
-      
-      var $wrapper,$navbar,$container,ctx,img,js,css,temp;
-      var init=function(){
-           js=$$('j');
-           ctx=$$('x');
-           img=$$('i');
-           onCreate();
-          
-        };
-       var onCreate=function(){
-          $('#email').html(compUI.input('email','text').addClass('cho_input').css({'background-color':'white','placeholder':'이메일'}).attr('placeholder','이메일 주소'));
-             $('#pass').html(compUI.input('pass','password').addClass('cho_input').css({'background-color':'white' ,'placeholder':'비밀번호'}).attr('placeholder','비밀번호'));
-             $('#facebookDiv').html(compUI.btn('facebookBtn').addClass('cho_button').css({'background-color':'#3B5998'}).text('페이스북 계정으로 로그인'));
-             $('#joinDiv').html(compUI.btn('join').addClass('cho_button').attr({'data-toggle':'modal', 'data-target':"#myModal222"}).css({'background-color':'#ffb380'}).text('회원가입'));
-             $('#loginDiv').html(compUI.btn('login').addClass('cho_button').css({'background-color':'#ff5a5f'}).text('로그인'));   
-       };
-       
-       
-       return {init:init}
-       })();
+
 
        
-chobongki.profile=(()=>{
+chobongki.profile=(e=>{
    var init=function(ctx){
 	   ctx=$$('x');
+	   alert('ctx:'+ctx);
       $('<div/>',{'id':'container'}).appendTo('body');
        $('#container').html(cho.profile());
        $('#lastname').val(sessionStorage.getItem('sname').substring(1));
@@ -143,7 +194,47 @@ chobongki.profile=(()=>{
        $('#year option[value='+sessionStorage.getItem('sbirthdate').substring(0,4)+']').attr('selected', true);
        $('#month option[value='+sessionStorage.getItem('sbirthdate').substring(5,7)+']').attr('selected', true);
        $('#day option[value='+sessionStorage.getItem('sbirthdate').substring(8,10)+']').attr('selected', true);
-       
+       $('#deleteBtn').after(compUI.btn('delete').addClass('cho_button1').text('탈퇴'));
+              
+       $('#delete').click(()=>{
+          alert('탈퇴');
+          var $password = prompt('비밀번호를 입력');
+          if($password==sessionStorage.getItem('spassword')){
+        	  alert('비밀번호가 일치합니다');
+        	 
+        	  $.ajax({
+    		  		 url :ctx+'/get/delete', 
+					 method : 'POST',					
+					 data  : JSON.stringify({
+						 'memberId' :sessionStorage.getItem('smemberid')
+						
+					 }),
+					 contentType : 'application/json',
+					 success : d=>{
+						 
+						 if(d.msg=='success'){                                
+							 alert('삭제 실패 !!');
+	                       
+	 
+                            app.common.init(ctx);                                                                                               
+	                         }else{
+	                           alert('삭제 되었습니다!!');
+	                           sessionStorage.clear();
+	                           app.common.init(ctx);
+	                           
+	                         }            
+	                    					
+					 },
+					 error : (x,s,m)=>{
+						
+					 }
+				 });  
+        	  
+          }else{
+        	  alert('비밀번호가 다릅니다'); 
+          };
+         
+       });
        $('#menu5').click(()=>{
             alert('프로필수정')
               $('<div/>',{'id':'container'}).appendTo('body');
@@ -172,12 +263,37 @@ chobongki.profile=(()=>{
                   chobongki.profile.init();
                });
          });
-         $('#updateBtn')
-            .append(compUI.btn('update')
-                  .addClass('cho_button1')
-                  .text('수정하기'));
+      
          $('#update').click(()=>{
-                     alert('수정하기');
+        	 ///수정하기
+        	   
+        	 var $lastname=$('#lastname').val();
+             var $firstname=$('#firstname').val();
+        	 var $memberid=sessionStorage.getItem('smemberid');
+        	       alert('아이디'+$memberid);
+                     
+        	   $.ajax({
+        		   url :ctx+'/get/update', 
+					 method : 'POST',					
+					 data  : JSON.stringify({
+						 'memberId' :$memberid,
+						 	'name'  :$lastname,
+						 	'birthdate' : $firstname
+					 }), 
+					 contentType : 'application/json',
+					success : d=>{
+						var $name=$firstname+$lastname;                  
+						
+						sessionStorage.setItem('sname',$name);
+						
+						alert('업데이트성공'+sessionStorage.getItem('sname'));
+						chobongki.profile.init(ctx);                                                                                             
+	                             
+					 },
+					 error : (x,s,m)=>{
+						 alert('통신에러'+m);
+					 }
+        	   })    
                      chobongki.profile.init();
                   });
          compUI.btn('menu')
@@ -218,16 +334,12 @@ chobongki.profile=(()=>{
          });
          
                
-         $('#deleteBtn').after(compUI.btn('delete').addClass('cho_button1').text('탈퇴'));
-         $('#delete').click(()=>{
-            alert('탈퇴');
-            chobongki.common.init();
-         });
+        
          compUI.btn('profileShow')
          .addClass('cho_btn')
          .text('예약보기').appendTo('#profileShow2').click(()=>{
             alert('예약보기');  
-           //$('body').html(cho.profileNav());
+           
             jw.resvBoard.list();
          });
    };
@@ -237,22 +349,21 @@ chobongki.profile=(()=>{
 
 // -----------템플릿---------------//
 var cho={
-      login :()=>{
-         return 
-         },
          join :()=>{ 
            return '<div style="margin-left: 40%"><div style="width: 30px; display: inline-block;">'
-             +'            <svg viewBox="0 0 1000 1000" role="presentation" aria-hidden="true" focusable="false" style="height:2em;width:2em;display:block;fill:#FF5A5F;" data-reactid="25">'
+             +'         <div id="homeBtn111">   <svg viewBox="0 0 1000 1000" role="presentation" aria-hidden="true" focusable="false" style="height:2em;width:2em;display:block;fill:#FF5A5F;" data-reactid="25">'
              +'               <path d="M499.3 736.7c-51-64-81-120.1-91-168.1-10-39-6-70 11-93 18-27 45-40 80-40s62 13 80 40c17 23 21 54 11 93-11 49-41 105-91 168.1zm362.2 43c-7 47-39 86-83 105-85 37-169.1-22-241.1-102 119.1-149.1 141.1-265.1 90-340.2-30-43-73-64-128.1-64-111 0-172.1 94-148.1 203.1 14 59 51 126.1 110 201.1-37 41-72 70-103 88-24 13-47 21-69 23-101 15-180.1-83-144.1-184.1 5-13 15-37 32-74l1-2c55-120.1 122.1-256.1 199.1-407.2l2-5 22-42c17-31 24-45 51-62 13-8 29-12 47-12 36 0 64 21 76 38 6 9 13 21 22 36l21 41 3 6c77 151.1 144.1 287.1 199.1 407.2l1 1 20 46 12 29c9.2 23.1 11.2 46.1 8.2 70.1zm46-90.1c-7-22-19-48-34-79v-1c-71-151.1-137.1-287.1-200.1-409.2l-4-6c-45-92-77-147.1-170.1-147.1-92 0-131.1 64-171.1 147.1l-3 6c-63 122.1-129.1 258.1-200.1 409.2v2l-21 46c-8 19-12 29-13 32-51 140.1 54 263.1 181.1 263.1 1 0 5 0 10-1h14c66-8 134.1-50 203.1-125.1 69 75 137.1 117.1 203.1 125.1h14c5 1 9 1 10 1 127.1.1 232.1-123 181.1-263.1z" data-reactid="26"></path>'
-             +'            </svg>'
+             +'            </svg></div>'
              +'<br/>'
           +' <div style="margin-left: 40%" id="logincenter"> '
-          +' <form  class="cho_form" action="" method="post"> '
+          +' <div  class="cho_form" action="" method="post"> '
           +'   <div id="container_cho"> '
           +'<div style="text-align:center">'
           +'<label style="margin: 0 auto;">페이스북 또는 구글로 회원 가입하세요. </label> '
           +'</div>'
           +'<hr/>'
+          +'<div id="joinaddBtn0">' // 회원가입
+          +'</div>'
           +'<div id="joinaddBtn1">' // 회원가입
           +'</div>'
           +'<div id="joinaddBtn2">' // 회원가입
@@ -267,54 +378,54 @@ var cho={
           +'<br/>'
           +'<br/>'
           +'<div style="" >'
-          +'<select class="cho_select" id="month" >'
-          +'<option value="1">1월</option>'
-          +'<option value="2">2월</option>'
-          +'<option value="3">3월</option>'
-          +'<option value="4">4월</option>'
-          +'<option value="5">5월</option>'
-          +'<option value="6">6월</option>'
-          +'<option value="7">7월</option>'
-          +'<option value="8">8월</option>'
-          +'<option value="9">9월</option>'
+          +'<select class="cho_select" id="addmonth" >'
+          +'<option value="01">1월</option>'
+          +'<option value="02">2월</option>'
+          +'<option value="03">3월</option>'
+          +'<option value="04">4월</option>'
+          +'<option value="05">5월</option>'
+          +'<option value="06">6월</option>'
+          +'<option value="07">7월</option>'
+          +'<option value="08">8월</option>'
+          +'<option value="09">9월</option>'
           +'<option value="10">10월</option>'
           +'<option value="11">11월</option>'
           +'<option value="12">12월</option>'
           +'  </select> &nbsp&nbsp'
-          +'<select class="cho_select" id="day" >'
-          +'<option value="1">1일</option>'
-          +'<option value="2">2일</option>'
-          +'<option value="3">3일</option>'
-          +'<option value="4">4일</option>'
-          +'<option value="5">5일</option>'
-          +'<option value="6">6일</option>'
-          +'<option value="7">7일</option>'
-          +'<option value="8">8일</option>'
-          +'<option value="9">9일</option>'
+          +'<select class="cho_select" id="addday" >'
+          +'<option value="01">1일</option>'
+          +'<option value="02">2일</option>'
+          +'<option value="03">3일</option>'
+          +'<option value="04">4일</option>'
+          +'<option value="05">5일</option>'
+          +'<option value="06">6일</option>'
+          +'<option value="07">7일</option>'
+          +'<option value="08">8일</option>'
+          +'<option value="09">9일</option>'
           +'<option value="10">10일</option>'
           +'<option value="11">11일</option> '
-          +'<option value="11">12일</option> '
-          +'<option value="11">13일</option> '
-          +'<option value="11">14일</option> '
-          +'<option value="11">15일</option> '
-          +'<option value="11">16일</option> '
-          +'<option value="11">17일</option> '
-          +'<option value="11">18일</option> '
-          +'<option value="11">19일</option> '
-          +'<option value="11">20일</option> '
-          +'<option value="11">21일</option> '
-          +'<option value="11">22일</option> '
-          +'<option value="11">23일</option> '
-          +'<option value="11">24일</option> '
-          +'<option value="11">25일</option> '
-          +'<option value="11">26일</option> '
+          +'<option value="12">12일</option> '
+          +'<option value="13">13일</option> '
+          +'<option value="14">14일</option> '
+          +'<option value="15">15일</option> '
+          +'<option value="16">16일</option> '
+          +'<option value="17">17일</option> '
+          +'<option value="18">18일</option> '
+          +'<option value="19">19일</option> '
+          +'<option value="20">20일</option> '
+          +'<option value="21">21일</option> '
+          +'<option value="22">22일</option> '
+          +'<option value="23">23일</option> '
+          +'<option value="24">24일</option> '
+          +'<option value="25">25일</option> '
+          +'<option value="26">26일</option> '
           +'<option value="27">27일</option> '
           +'<option value="28">28일</option> '
           +'<option value="29">29일</option> '
           +'<option value="30">30일</option> '
           +'<option value="31">31일</option> '
           +'  </select >&nbsp&nbsp&nbsp&nbsp'
-          +'<select class="cho_select" id="year" name="color">'
+          +'<select class="cho_select" id="addyear">'
           +'<option value="1970">1970년</option>'
           +'<option value="1971">1970년</option>'
           +'<option value="1972">1972년</option>'
@@ -357,15 +468,12 @@ var cho={
           +'<div id="addjoin">'
           +'</div>'
           +'<hr/>'
-          +'<label style="color:black">이미 에어비앤비 계정이 있나요? </labal> '
-          +'<div id="addlogin">'
-          +'</div>'
-          +'   </labal></div> '
-           +' </form> '
+          +'</div> '
+           +' </div> '
           +' </div></div>';
-            return 
+         
                },
-      profile :()=>{return '<ul class="cho_ul">'
+      profile :()=>{return '<div style= "height: 100%;padding-top: 8%;padding-bottom: 0%;><div style="margin-top: 4%"><ul class="cho_ul">'
                +'<li class="cho_li"><div class="cho_menu" id="menu1">알림판</div></li>'
                +'<li class="cho_li"><div class="cho_menu" id="menu2">메세지</div></li>'
                +'<li class="cho_li"><div class="cho_menu" id="menu3">숙소 목록</div></li>'
@@ -486,7 +594,7 @@ var cho={
                      +'<span id="update"><input class="cho_btn2" type="button" value="수정하기" /></span>'
                      +'<span id="delete"><input class="cho_btn2" type="button" value="탈퇴" /></span></div><br><br><br>'
                      +'</div>'
-         +'</div></div>'
+         +'</div></div></div></div>'
 
                      
                   },

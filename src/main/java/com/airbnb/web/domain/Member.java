@@ -63,11 +63,11 @@ public class Member {
 				this.regdate = regdate;
 			}
 
-			public String getBirthdate() {
+			public String getbirthdate() {
 				return birthdate;
 			}
 
-			public void setBirthdate(String birthdate) {
+			public void setbirthdate(String birthdate) {
 				this.birthdate = birthdate;
 			}
 			
