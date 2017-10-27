@@ -15,7 +15,6 @@ chobongki.index=(()=>{
         js=sessionStorage.getItem('j');
         ctx=sessionStorage.getItem('x');        
         onCreate();
-       
      };
     var onCreate=function(){                    
           $('#email').html(compUI.input('useremail','text').addClass('cho_input').css({'background-color':'white'}).attr('placeholder','이메일 주소'));
@@ -30,12 +29,10 @@ chobongki.index=(()=>{
           $('#addlogin').html(compUI.btn('addloginafter').addClass('cho_button').css({'background-color':'#ff5a5f'}).text('로그인'));
           $('#addjoin').html(compUI.btn('addjoin').addClass('cho_button').css({'background-color':'#ffb380'}).text('회원가입'));
           $('#joinaddBtn0').html(compUI.btn('search').css({'background-color':'white'}).text('이메일중복조회'));
-          
           $('#homeBtn111').click(()=>{
         	  app.common.init(ctx);
           });
-          
-        	  $('#search').click(()=>{
+          $('#search').click(()=>{
            	var $addemail=$('#addemail').val();
             	 alert('이메일'+$addemail);
              	$.ajax({
@@ -43,56 +40,52 @@ chobongki.index=(()=>{
                 	 method : 'post',
                 	 data  : JSON.stringify({
     					 'memberId' : $addemail
-    					
     				 }),
     				 contentType : 'application/json',
-    				 success : d=>{
-    					           
-                               if(d.msg=='success'){
-                              	 alert('가입가능한 이메일입니다');
-                               	                          
-                               }else{
-                              	 alert('중복입니다');
-                              	  $('#useremail').val("");
-  	                                                       }                                                      
-                       					
-    				 },
-    				 error : (x,s,m)=>{
-    					
-    				 }
-                 });  
-                  });	
-          
-          
+	  				 success : d=>{
+	                         if(d.msg=='success'){
+	                           	 alert('가입가능한 이메일입니다');
+	                         }else{
+	                        	 alert('중복입니다');
+	                      	  $('#useremail').val("");
+	                       }                                                      
+  				 },
+  				 error : (x,s,m)=>{
+  				 }
+      });  
+});	
             $('#addjoin').attr({'data-toggle':'modal', 'data-target':"#myModal111"}).click(()=>{
-            	 alert('가입완료11');
-            
-                     	  
-            	var $addemail=$('#addemail').val();
+               	var $addemail=$('#addemail').val();
             	var $addfirstname=$('#addfirstname').val();
             	var $addlastname=$('#addlastname').val();
             	var $addpass=$('#addpass').val();
             	var $addyear=$('#addyear').val();
             	var $addmonth=$('#addmonth').val();
             	var $addday=$('#addday').val();
-                
-            	var $name=$('#addlastname').val()+$('#addfirstname').val();
+               	var $name=$('#addlastname').val()+$('#addfirstname').val();
             	var $birthdate=$('#addyear').val()+'-'+$('#addmonth').val()+'-'+$('#addday').val();
-          
-            	
-             alert('이메일'+$addemail);
-             alert('이름'+$name);
-             alert('생일'+$birthdate);
-             alert('비번'+$addpass);
-             var arr=[$addemail,$name,$birthdate,$addpass];
-             
-             for (var i = 0; i < arr.length ; i++) {
-            	 			if(arr[i]==""){
-            	 				alert('필수 입력 값이  빠졌습니다 ');
+                var arr=[$addemail,$name,$birthdate,$addpass];
+         
+         	
+            	 			if($addemail==""){
+            	 				alert('메일주소 값이 빠졌습니다 ');
             	 				 e.preventDefault();
-            	 				
-            	 				
             	 			}else{
+            	 				
+            	 				if($addfirstname==""){
+            	 					alert('이름 값이 빠졌습니다 ');
+               	 				 e.preventDefault(); 
+            	 				}else{
+            	 				 
+            	 				 if($addlastname==""){
+             	 					alert('이름 입력 값이 빠졌습니다 ');
+                	 				 e.preventDefault(); 
+            	 				}else{
+            	 				 if($addpass==""){
+              	 					alert('비밀번호 입력 값이 빠졌습니다 ');
+                 	 				 e.preventDefault(); 
+              	 				
+            	 	}else{
             	 				 $.ajax({
             	 	            	 url :ctx+'/get/insert',
             	 	            	 method : 'post',
@@ -106,30 +99,28 @@ chobongki.index=(()=>{
             	 					 success : d=>{
             	 	                           alert('가입성공 성공 !!');
             	 	                           app.common.init(ctx);
+            	 	                          
             	 					 },
             	 					 error : (x,s,m)=>{
             	 						
             	 						 app.common.init(ctx);
-            	 					 }
-            	 	             });
-            	}              	 	
-            
-             }    
-               
+            	 						 
+            		 }
+            	   });
+                         	 	
+            	 	}}}}            	 			
             });
           $('#joinDiv').click(()=>{
         	  $('body').html(cho.join());
 			   chobongki.common.init(ctx); 
-             
+            
           });
           $('#facebookDiv').click(()=>{
              alert('페이스북버튼');
-             
           });
-         
           $('#loginDiv').click(e=>{
         	 e.preventDefault();
-             alert('로그인22222');
+               alert('로그인');
          
           var $email=$('#useremail').val();
        	  var $pass=$('#userpass').val();
@@ -156,34 +147,25 @@ chobongki.index=(()=>{
 								jw.common.init(ctx);
 								}else{
 							   alert('로그인 성공 !!');
-	                           
 	                           sessionStorage.setItem('sname',d.list.name);
 	                           sessionStorage.setItem('smemberid',d.list.memberId);
 	                           sessionStorage.setItem('sregdate',d.list.regdate);
 	                           sessionStorage.setItem('sbirthdate',d.list.birthdate);
 	                           sessionStorage.setItem('spassword',d.list.memberPassword);
-	                          
                                app.common.init(ctx);                                                                                               
 	                         }        
 	                    					
 					 }
 					 },
 					 error : (x,s,m)=>{
-						 alert('아이디 비밀번호가 일치하지않습니다.');
+						  alert('아이디 비밀번호가 일치하지않습니다.');
 					 }
 				 });
         }
           });
-       
     }; 
-                  
-   
     return {init:init };
 })();
-
-
-
-       
 chobongki.profile=(e=>{
    var init=function(ctx){
 	   ctx=$$('x');
@@ -216,23 +198,19 @@ chobongki.profile=(e=>{
 						 
 						 if(d.msg=='success'){                                
 							 alert('삭제 실패 !!');
-	                       
-	 
-                            app.common.init(ctx);                                                                                               
+                             app.common.init(ctx);                                                                                               
 	                         }else{
 	                           alert('삭제 되었습니다!!');
 	                           sessionStorage.clear();
 	                           app.common.init(ctx);
-	                           
-	                         }            
-	                    					
+                         }            
 					 },
 					 error : (x,s,m)=>{
-						
 					 }
 				 });  
-        	  
+ 
           }else{
+        	
         	  alert('비밀번호가 다릅니다'); 
           };
          
@@ -265,10 +243,8 @@ chobongki.profile=(e=>{
                   chobongki.profile.init();
                });
          });
-      
          $('#update').click(()=>{
         	 ///수정하기
-        	   
         	 var $lastname=$('#lastname').val();
              var $firstname=$('#firstname').val();
         	 var $memberid=sessionStorage.getItem('smemberid');
@@ -352,7 +328,7 @@ chobongki.profile=(e=>{
 // -----------템플릿---------------//
 var cho={
          join :()=>{ 
-           return '<div style="margin-left: 40%"><div style="width: 30px; display: inline-block;">'
+           return '<div style="margin-left: 40%; margin-top: 1%;"><img style="margin-left: -63%;margin-top: -87%;" src="resources/img/fff.JPG"><div style="width: 30%; display: inline-block;">'
              +'         <div id="homeBtn111">   <svg viewBox="0 0 1000 1000" role="presentation" aria-hidden="true" focusable="false" style="height:2em;width:2em;display:block;fill:#FF5A5F;" data-reactid="25">'
              +'               <path d="M499.3 736.7c-51-64-81-120.1-91-168.1-10-39-6-70 11-93 18-27 45-40 80-40s62 13 80 40c17 23 21 54 11 93-11 49-41 105-91 168.1zm362.2 43c-7 47-39 86-83 105-85 37-169.1-22-241.1-102 119.1-149.1 141.1-265.1 90-340.2-30-43-73-64-128.1-64-111 0-172.1 94-148.1 203.1 14 59 51 126.1 110 201.1-37 41-72 70-103 88-24 13-47 21-69 23-101 15-180.1-83-144.1-184.1 5-13 15-37 32-74l1-2c55-120.1 122.1-256.1 199.1-407.2l2-5 22-42c17-31 24-45 51-62 13-8 29-12 47-12 36 0 64 21 76 38 6 9 13 21 22 36l21 41 3 6c77 151.1 144.1 287.1 199.1 407.2l1 1 20 46 12 29c9.2 23.1 11.2 46.1 8.2 70.1zm46-90.1c-7-22-19-48-34-79v-1c-71-151.1-137.1-287.1-200.1-409.2l-4-6c-45-92-77-147.1-170.1-147.1-92 0-131.1 64-171.1 147.1l-3 6c-63 122.1-129.1 258.1-200.1 409.2v2l-21 46c-8 19-12 29-13 32-51 140.1 54 263.1 181.1 263.1 1 0 5 0 10-1h14c66-8 134.1-50 203.1-125.1 69 75 137.1 117.1 203.1 125.1h14c5 1 9 1 10 1 127.1.1 232.1-123 181.1-263.1z" data-reactid="26"></path>'
              +'            </svg></div>'
@@ -472,7 +448,7 @@ var cho={
           +'<hr/>'
           +'</div> '
            +' </div> '
-          +' </div></div>';
+          +' </div></div></div>';
          
                },
       profile :()=>{return '<div style= "height: 100%;padding-top: 8%;padding-bottom: 0%;><div style="margin-top: 4%"><ul class="cho_ul">'
@@ -638,9 +614,7 @@ var cho={
           +'<li class="cho_li"><div class="cho_menu" id="menu6">계정관리</div></li>'
           +'<li class="cho_li"><div class="cho_menu" id="menu7">여행크레딧</div></li>'
        +'</ul>';}
-               
-               
-            
+         
 }
 // -----------컴프---------------//
 
@@ -674,7 +648,11 @@ chobongki.session=
            }
 };
 var $$= function(x){return chobongki.session.getPath(x);};
+
+
    ////=====페이스북 api====///
+
+
 (function(d, s, id) {
     var js, fjs = d.getElementsByTagName(s)[0];
     if (d.getElementById(id)) return;

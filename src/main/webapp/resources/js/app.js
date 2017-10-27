@@ -19,6 +19,7 @@ app.main=(()=>{
 		$navbar=$('#navbar');
 		temp=js + '/template.js';
 		bongki = js + '/bongki.js';
+		
 		onCreate();
 		
 	};

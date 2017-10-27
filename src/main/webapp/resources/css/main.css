@@ -1107,7 +1107,8 @@ li {
          margin-left: 35%; } 
          .cho_form { 
              border: 3px solid #f1f1f1; 
-             width: 400px; 
+                    width: 304%;
+    margin-left: -159%;
          } 
          .cho_input[type=text]{
          width: 350px; 

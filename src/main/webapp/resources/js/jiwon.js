@@ -402,58 +402,7 @@ jw.resvBoard = (function(){
 			}
       });
     };   
-      
-  /*   var url=ctx+'/get/rev/';
-    $.getScript(temp,()=>{ 
-     $.ajax({
-		   url :url, 
-			 method : 'POST',					
-			 
-			 contentType : 'application/json',
-			success : list=>{
-				alert('성공');            
-				
-				var tr="";
-			         $.each(list, (i,j)=>{
-			            tr += '<tr style="height:25px; text-align:center;">'
-			               + '<td>'+j.rsvSeq+'</td>'
-			               + '<td>'+j.residenceName+'</td>'
-			               + '<td>'+j.name+'</td>'
-			               + '<td>'+j.checkin+' / '+j.checkout+'</td>'
-			               + '<td id="tbl_btnarea'+i+'"></td>'
-			               + '</tr>'
-			               
-			         });
-			         //수정 버튼
-			         $('#resv_tbody').html(tr);      
-			         $.each(list,(i,j)=>{
-			         compUI.span('brd_btn_res_'+i).appendTo($('#tbl_btnarea'+i)).attr('displsy','inline').html('후기작성').addClass('label label-warning').css({'cursor':'pointer'})
-			         .click(()=>{
-							alert('후기작성');
-						});
-			          });
-			                                                                                          
-			          
-			 },
-			 error : (x,s,m)=>{
-				 alert('통신에러'+m);
-			 }
-	   }) 
- 		
-    });	  */
-         //board_list
-      
-         
-       
-        
-         
-         //수정 버튼
-     	
-         
-         //pagebar
-         
-   
- 
+
  
    return { list : list };
 })();
