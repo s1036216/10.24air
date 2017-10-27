@@ -349,45 +349,112 @@ jw.resvBoard = (function(){
    var init = function(){
       js=$$('j');
       temp=js+'/template.js';
+    
    };
    
    var list = function(){
-      init();
+       init();
+       var ctx = $$('x');
+       var url=ctx+'/get/rev/';
       $('body').html(resvbrdUI.frame());
-      $.getScript(temp, ()=>{
+      alert('리스트화면');
+      alert('리스트화면'+ctx);
+      $.ajax({
+		   url :url, 
+			 method : 'POST',					
+			 data : JSON.stringify ({
+				memberId : sessionStorage.getItem('smemberid')
+			 }),
+			 contentType : 'application/json',
+			success : list=>{
+				alert('성공');            
+						
+		      $.getScript(temp, ()=>{
+		          //board_list
+		          $('#resv_list').html(resvbrdUI.tbl());
+		          
+		          var tr="";
+		          $.each(list, (i,j)=>{
+		             tr += '<tr style="height:25px; text-align:center;">'
+		            	 + '<td>'+j.rsvSeq+'</td>'
+			             + '<td>'+j.residenceName+'</td>'
+			             + '<td>'+j.name+'</td>'
+			             + '<td>'+j.checkin+' / '+j.checkout+'</td>'
+			             + '<td id="tbl_btnarea'+i+'"></td>'
+		                 + '</tr>';
+		          });
+		          $('#resv_tbody').html(tr);   
+		          
+		          //수정 버튼
+		          $.each(list, (i,j)=>{
+		             compUI.span('brd_btn_res_'+i).appendTo($('#tbl_btnarea'+i)).attr('displsy','inline').html('후기작성').addClass('label label-warning').css({'cursor':'pointer'})
+		             .click(()=>{
+		             alert('후기작성');
+		             });
+		          });
+		          
+		          //pagebar
+		          $('#resv_pagebar').append(boardUI.pagebar());
+		       });
+			},
+			error : (x,s,m)=>{
+				 alert('통신에러'+m);
+			}
+      });
+    };   
+      
+  /*   var url=ctx+'/get/rev/';
+    $.getScript(temp,()=>{ 
+     $.ajax({
+		   url :url, 
+			 method : 'POST',					
+			 
+			 contentType : 'application/json',
+			success : list=>{
+				alert('성공');            
+				
+				var tr="";
+			         $.each(list, (i,j)=>{
+			            tr += '<tr style="height:25px; text-align:center;">'
+			               + '<td>'+j.rsvSeq+'</td>'
+			               + '<td>'+j.residenceName+'</td>'
+			               + '<td>'+j.name+'</td>'
+			               + '<td>'+j.checkin+' / '+j.checkout+'</td>'
+			               + '<td id="tbl_btnarea'+i+'"></td>'
+			               + '</tr>'
+			               
+			         });
+			         //수정 버튼
+			         $('#resv_tbody').html(tr);      
+			         $.each(list,(i,j)=>{
+			         compUI.span('brd_btn_res_'+i).appendTo($('#tbl_btnarea'+i)).attr('displsy','inline').html('후기작성').addClass('label label-warning').css({'cursor':'pointer'})
+			         .click(()=>{
+							alert('후기작성');
+						});
+			          });
+			                                                                                          
+			          
+			 },
+			 error : (x,s,m)=>{
+				 alert('통신에러'+m);
+			 }
+	   }) 
+ 		
+    });	  */
          //board_list
-         $('#resv_list').html(resvbrdUI.tbl());
-         var data=[
-            { seq:'1', resdName:'test1', hostName:'test2', chkInout:'2013-10-10 ~ 2013-11-01'},
-            { seq:'2', resdName:'test1', hostName:'test2', chkInout:'2014-07-15 ~ 2014-07-20'},
-            { seq:'3', resdName:'test1', hostName:'test2', chkInout:'2017-05-31 ~ 2017-06-15'}
-         ];
+      
          
-         var tr="";
-         $.each(data, (i,j)=>{
-            tr += '<tr style="height:25px; text-align:center;">'
-               + '<td>'+j.seq+'</td>'
-               + '<td>'+j.resdName+'</td>'
-               + '<td>'+j.hostName+'</td>'
-               + '<td>'+j.chkInout+'</td>'
-               + '<td id="tbl_btnarea'+j.seq+'"></td>'
-               + '</tr>'
-         });
-         $('#resv_tbody').html(tr);   
+       
+        
          
          //수정 버튼
-         $.each(data, (i,j)=>{
-            compUI.span('brd_btn_res_'+i).appendTo($('#tbl_btnarea'+j.seq)).attr('displsy','inline').html('후기작성').addClass('label label-warning').css({'cursor':'pointer'})
-            .click(()=>{
-				alert('후기작성');
-			});
-         });
+     	
          
          //pagebar
-         $('#resv_pagebar').append(boardUI.pagebar());
-      });
-   }; 
-
+         
+   
+ 
+ 
    return { list : list };
 })();
 

@@ -150,21 +150,23 @@ chobongki.index=(()=>{
 					 success : d=>{
 						 
 						 if(d.msg=='success'){                                
-	                           alert('로그인 성공 !!');
+	                           
+							if(d.list.memberRole=='admin'){
+								alert('관리자로그인');
+								jw.common.init(ctx);
+								}else{
+							   alert('로그인 성공 !!');
 	                           
 	                           sessionStorage.setItem('sname',d.list.name);
 	                           sessionStorage.setItem('smemberid',d.list.memberId);
 	                           sessionStorage.setItem('sregdate',d.list.regdate);
 	                           sessionStorage.setItem('sbirthdate',d.list.birthdate);
 	                           sessionStorage.setItem('spassword',d.list.memberPassword);
-	                           alert('세션 이름 : '+sessionStorage.getItem('sname'));
-	                           alert('세션 아이디: '+sessionStorage.getItem('smemberid'));
-	                           alert('세션 날자: '+sessionStorage.getItem('sregdate'));
-                               alert('세션 생년월일: '+sessionStorage.getItem('sbirthdate'));
-	 
+	                          
                                app.common.init(ctx);                                                                                               
 	                         }        
 	                    					
+					 }
 					 },
 					 error : (x,s,m)=>{
 						 alert('아이디 비밀번호가 일치하지않습니다.');
@@ -340,7 +342,7 @@ chobongki.profile=(e=>{
          .text('예약보기').appendTo('#profileShow2').click(()=>{
             alert('예약보기');  
            
-            jw.resvBoard.list();
+            jw.resvBoard.list(ctx);
          });
    };
    return { init:init };

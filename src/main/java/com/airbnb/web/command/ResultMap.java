@@ -13,7 +13,7 @@ public class ResultMap {
    /*common ResultMap*/
 
    /*common bongki ...*/
-	private String memberId,memberPassword,name,regdate,birthdate;
+	private String rsvSeq,residenceName,name,checkout,checkin,birthdate;
 	
    /*common heekyung */
    /*common jiwon.... */
